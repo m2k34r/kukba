@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>كوكبة 12/7</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eceef2;--surface:#fff;--ink:#1e293b;--mut:#6b7280;--navy:#3f5f94;--navy2:#dfe7f3;--line:#d9dde4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181f;--surface:#1d232d;--ink:#e5e9f0;--mut:#9aa3b2;--navy:#7a9bd1;--navy2:#2a3648;--line:#2d3644;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14181f;--surface:#1d232d;--ink:#e5e9f0;--mut:#9aa3b2;--navy:#7a9bd1;--navy2:#2a3648;--line:#2d3644;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Tajawal,system-ui,sans-serif}
+header{padding:28px 20px 8px;max-width:960px;margin:auto}
+h1{margin:0;font-size:2rem;font-weight:800}
+h1 span{color:var(--navy)}
+header p{margin:4px 0 0;color:var(--mut)}
+nav{display:flex;gap:8px;max-width:960px;margin:16px auto 0;padding:0 20px;overflow-x:auto}
+nav button{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 18px;border-radius:999px;font:inherit;font-weight:500;cursor:pointer;white-space:nowrap}
+nav button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+main{max-width:960px;margin:auto;padding:20px}
+.panel{display:none}.panel.on{display:block}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px}
+form,.row{display:flex;gap:8px;flex-wrap:wrap}
+input,select{flex:1;min-width:130px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.btn{background:var(--navy);color:#fff;border:0;padding:10px 18px;border-radius:10px;font:inherit;font-weight:700;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.st{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.av{width:44px;height:44px;border-radius:50%;background:var(--navy2);color:var(--navy);display:grid;place-items:center;font-weight:800;font-size:1.1rem;flex:none}
+.st b,.st small{display:block}.st small{color:var(--mut)}.st .ct{color:var(--navy);font-size:.85rem;margin-top:2px}
+.x{margin-inline-start:auto;border:0;background:none;color:var(--mut);cursor:pointer;font-size:1rem}
+.ev h3{margin:0 0 2px}.ev .d{color:var(--mut);font-size:.9rem;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chip{background:var(--navy2);color:var(--navy);padding:4px 10px;border-radius:999px;font-size:.9rem}
+.chip button{border:0;background:none;color:inherit;cursor:pointer;margin-inline-start:4px}
+canvas{width:100%;max-width:640px;border-radius:18px;display:block;margin:14px 0}
+.hint{color:var(--mut);font-size:.9rem}
+.vis{display:none}.ro .adm,.ro .x,.ro .ev .row{display:none}.ro .vis{display:block}.ro .ev .vis.row{display:flex}
+#toast{position:fixed;inset-inline:0;bottom:calc(20px + env(safe-area-inset-bottom,0px));margin:auto;width:max-content;max-width:90%;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;opacity:0;transition:opacity .3s;pointer-events:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>كوكبة <span>12/7</span></h1>
+  <p>كل نجم له دور، وكل دور يصنع الصف.</p>
+</header>
+<nav>
+  <button class="on" data-t="s">الطلاب</button>
+  <button data-t="e">الفعاليات</button>
+  <button data-t="c">البطاقات</button>
+  <button data-t="r" id="rb" style="display:none">الطلبات</button>
+</nav>
+<main>
+  <section class="panel on" id="s">
+    <div class="box adm"><form id="fs"><input id="sn" placeholder="اسم الطالب" required><input id="sr" placeholder="دوره في الصف (مثال: رئيس الصف)" required><input id="sc" placeholder="معلومات التواصل (رقم أو حساب)"><button class="btn">إضافة</button></form></div>
+    <div class="box vis"><b>طلب انضمام للصف</b><form id="fq" style="margin-top:8px"><input id="qn" placeholder="اسمك" required><input id="qr" placeholder="دورك في الصف" required><input id="qc" placeholder="معلومات التواصل (اختياري)"><button class="btn">إرسال الطلب</button></form><p class="hint">يظهر اسمك بعد موافقة المسؤول.</p></div>
+    <div class="grid" id="sl"></div>
+  </section>
+  <section class="panel" id="e">
+    <div class="box adm"><form id="fe"><input id="et" placeholder="اسم الفعالية" required><input id="ed" type="date"><button class="btn">إضافة فعالية</button></form></div>
+    <div class="box vis"><b>اقتراح فعالية</b><form id="fv" style="margin-top:8px"><input id="vt" placeholder="اسم الفعالية" required><input id="vd" type="date"><button class="btn">إرسال الاقتراح</button></form></div>
+    <div id="el"></div>
+  </section>
+  <section class="panel" id="r"><div id="rl"></div></section>
+  <section class="panel" id="c">
+    <div class="box">
+      <div class="row"><select id="cs"></select><button class="btn" id="cg">تصميم جديد ✨</button></div>
+      <canvas id="cv" width="640" height="380"></canvas>
+      <p class="hint">لحفظ البطاقة: اضغط مطولاً على الصورة أو التقط لقطة شاشة.</p>
+    </div>
+  </section>
+</main><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+let S=null;
+try{const r=localStorage.getItem('k127');if(r)S=JSON.parse(r)}catch(e){}
+if(!S)S={students:[{id:uid(),name:'أحمد',role:'رئيس الصف'},{id:uid(),name:'سالم',role:'مسؤول الفعاليات'},{id:uid(),name:'خالد',role:'المصوّر'}],events:[]};
+let REF=null,W=true,DBH=null,UID=null,MINE=[],REQS=[];
+function toast(t){const d=$('#toast');d.textContent=t;d.style.opacity=1;setTimeout(()=>d.style.opacity=0,2800)}
+function sendReq(it){if(!DBH||!UID){toast('سجّل الدخول في Claude لإرسال الطلب');return}it.id=uid();MINE=[...MINE,it];DBH.doc('requests/'+UID).set({items:MINE}).then(()=>toast('تم إرسال الطلب، بانتظار الموافقة')).catch(()=>{MINE=MINE.filter(i=>i!==it);toast('تعذر الإرسال، قد تحتاج صلاحية مساهم')})}
+function lbl(i){if(i.t==='student')return 'طالب جديد: '+esc(i.name)+' — '+esc(i.role)+(i.contact?' — '+esc(i.contact):'');if(i.t==='event')return 'فعالية مقترحة: '+esc(i.title)+(i.date?' ('+esc(i.date)+')':'');const v=S.events.find(v=>v.id===i.eid);return esc(name(i.sid)||'؟')+' يطلب المشاركة في '+esc(v?v.title:'فعالية محذوفة')}
+function renderReq(){const all=[];REQS.forEach(r=>r.items.forEach(i=>all.push({u:r.uid,i})));const b=$('#rb');b.style.display=(W&&REF)?'':'none';b.textContent='الطلبات'+(all.length?' ('+all.length+')':'');$('#rl').innerHTML=all.map(x=>'<div class="box"><b>'+lbl(x.i)+'</b><div class="row" style="margin-top:8px"><button class="btn" data-ok="'+x.u+'|'+x.i.id+'">موافقة</button><button class="btn" style="background:var(--mut)" data-no="'+x.u+'|'+x.i.id+'">رفض</button></div></div>').join('')||'<p class="hint">لا توجد طلبات.</p>'}
+function decide(k,ok){const[u,id]=k.split('|'),r=REQS.find(r=>r.uid===u),it=r&&r.items.find(i=>i.id===id);if(!it)return;if(ok){if(it.t==='student')S.students.push({id:uid(),name:it.name,role:it.role,contact:it.contact||''});else if(it.t==='event')S.events.push({id:uid(),title:it.title,date:it.date||'',ids:[]});else{const v=S.events.find(v=>v.id===it.eid);if(v&&S.students.some(s=>s.id===it.sid)&&!v.ids.includes(it.sid))v.ids.push(it.sid)}save();render()}DBH.doc('requests/'+u).set({items:r.items.filter(i=>i.id!==id)}).catch(()=>toast('تعذر تحديث الطلب'))}
+$('#fq').onsubmit=e=>{e.preventDefault();sendReq({t:'student',name:$('#qn').value.trim().slice(0,60),role:$('#qr').value.trim().slice(0,60),contact:$('#qc').value.trim().slice(0,60)});e.target.reset()};
+$('#fv').onsubmit=e=>{e.preventDefault();sendReq({t:'event',title:$('#vt').value.trim().slice(0,80),date:$('#vd').value});e.target.reset()};
+const save=()=>{try{localStorage.setItem('k127',JSON.stringify(S))}catch(e){}if(REF&&W)REF.set({students:S.students,events:S.events}).catch(()=>{})};
+const name=id=>(S.students.find(s=>s.id===id)||{}).name;
+function render(){
+  $('#sl').innerHTML=S.students.map(s=>`<div class="st"><div class="av">${esc(s.name[0]||'?')}</div><div><b>${esc(s.name)}</b><small>${esc(s.role)}</small>${s.contact?`<small class="ct" dir="auto">📞 ${esc(s.contact)}</small>`:''}</div><button class="x" data-del="${s.id}" title="حذف">✕</button></div>`).join('')||'<p class="hint">لا يوجد طلاب بعد.</p>';
+  const opts=S.students.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
+  const cur=$('#cs').value;$('#cs').innerHTML=opts;if(cur)$('#cs').value=cur;
+  $('#el').innerHTML=S.events.map(v=>`<div class="box ev"><h3>${esc(v.title)} <button class="x" data-delev="${v.id}">✕</button></h3><div class="d">${esc(v.date||'بدون تاريخ')}</div><div class="chips">${v.ids.filter(name).map(i=>`<span class="chip">${esc(name(i))}<button data-rm="${v.id}|${i}">✕</button></span>`).join('')||'<span class="hint">لا مشاركين بعد</span>'}</div><div class="row"><select id="sel-${v.id}">${opts}</select><button class="btn" data-add="${v.id}">أضف للفعالية</button></div><div class="row vis"><select id="js-${v.id}">${opts}</select><button class="btn" data-join="${v.id}">اطلب إضافتي</button></div></div>`).join('')||'<p class="hint">أضف أول فعالية للصف.</p>';
+  renderReq();
+  draw();
+}
+document.addEventListener('click',e=>{
+  const t=e.target;
+  if(t.dataset.t){document.querySelectorAll('nav button,.panel').forEach(x=>x.classList.remove('on'));t.classList.add('on');$('#'+t.dataset.t).classList.add('on');if(t.dataset.t==='c')draw();return}
+  if(t.dataset.join){sendReq({t:'join',eid:t.dataset.join,sid:$('#js-'+t.dataset.join).value});return}
+  if(t.dataset.ok||t.dataset.no){decide(t.dataset.ok||t.dataset.no,!!t.dataset.ok);return}
+  if(t.dataset.del){S.students=S.students.filter(s=>s.id!==t.dataset.del)}
+  else if(t.dataset.delev){S.events=S.events.filter(v=>v.id!==t.dataset.delev)}
+  else if(t.dataset.add){const v=S.events.find(v=>v.id===t.dataset.add),i=$('#sel-'+v.id).value;if(i&&!v.ids.includes(i))v.ids.push(i)}
+  else if(t.dataset.rm){const[a,b]=t.dataset.rm.split('|');const v=S.events.find(v=>v.id===a);v.ids=v.ids.filter(i=>i!==b)}
+  else return;
+  save();render();
+});
+$('#fs').onsubmit=e=>{e.preventDefault();S.students.push({id:uid(),name:$('#sn').value.trim(),role:$('#sr').value.trim(),contact:$('#sc').value.trim()});e.target.reset();save();render()};
+$('#fe').onsubmit=e=>{e.preventDefault();S.events.push({id:uid(),title:$('#et').value.trim(),date:$('#ed').value,ids:[]});e.target.reset();save();render()};
+// Card generator
+let variant=0;
+const PAL=[['#3f5f94','#8fa9d3'],['#4b5563','#a3acb9'],['#2d4a7a','#9db4d8'],['#5b6678','#c4cbd6']];
+const TAGS=['نجمٌ في سماء الصف','حضورٌ لا يُنسى','يصنع الفرق كل يوم','جزء من حكاية 12/7','طموحٌ بلا حدود'];
+function draw(){
+  const st=S.students.find(s=>s.id===$('#cs').value)||S.students[0];
+  const c=$('#cv'),x=c.getContext('2d'),W=640,H=380;
+  x.clearRect(0,0,W,H);
+  if(!st)return;
+  const p=PAL[variant%PAL.length],g=x.createLinearGradient(0,0,W,H);
+  g.addColorStop(0,p[0]);g.addColorStop(1,p[1]);
+  x.fillStyle=g;x.beginPath();x.roundRect(0,0,W,H,28);x.fill();
+  let h=0;for(const ch of st.name)h=(h*31+ch.charCodeAt(0)+variant*17)%9973;
+  x.fillStyle='rgba(255,255,255,.12)';
+  for(let i=0;i<14;i++){h=(h*73+19)%9973;const px=h%W,py=(h*7)%H,r=3+h%5;x.beginPath();x.arc(px,py,r,0,7);x.fill()}
+  x.strokeStyle='rgba(255,255,255,.18)';x.lineWidth=2;x.beginPath();x.arc(110,H-90,120,0,7);x.stroke();
+  x.fillStyle='rgba(255,255,255,.2)';x.beginPath();x.arc(120,130,56,0,7);x.fill();
+  x.fillStyle='#fff';x.font='800 56px Tajawal,sans-serif';x.textAlign='center';x.direction='rtl';x.fillText(st.name[0],120,150);
+  x.textAlign='right';x.font='800 44px Tajawal,sans-serif';x.fillText(st.name,W-40,150);
+  x.font='500 26px Tajawal,sans-serif';x.fillStyle='rgba(255,255,255,.92)';x.fillText(st.role,W-40,196);
+  x.font='400 19px Tajawal,sans-serif';x.fillStyle='rgba(255,255,255,.8)';x.fillText(TAGS[(h+variant)%TAGS.length],W-40,250);
+  x.fillStyle='rgba(255,255,255,.25)';x.fillRect(W-40-120,H-70,120,2);
+  x.fillStyle='#fff';x.font='700 20px Tajawal,sans-serif';x.fillText('كوكبة 12/7',W-40,H-36);
+}
+$('#cs').onchange=()=>draw();
+$('#cg').onclick=()=>{variant++;draw()};
+render();
+if(document.fonts)document.fonts.load('800 20px Tajawal').then(draw).catch(()=>{});
+(async()=>{try{
+  if(!window.claude)return;
+  const db=await claude.use('db');if(!db)return;
+  const u=await claude.use('user');W=u?u.canEdit():false;DBH=db;try{UID=u?await u.id():null}catch(e){}
+  if(!W)document.body.classList.add('ro');
+  REF=db.doc('class/main');
+  if(W)db.collection('requests').onSnapshot(s=>{REQS=s.docs.map(d=>({uid:d.id,items:(d.data()||{}).items||[]}));renderReq()},()=>{});
+  else if(UID)db.doc('requests/'+UID).onSnapshot(s=>{MINE=s.exists?(s.data().items||[]):[]},()=>{});
+  REF.onSnapshot(s=>{
+    if(s.exists){const d=s.data();S={students:d.students||[],events:d.events||[]};render()}
+    else if(W){REF.set({students:S.students,events:S.events}).catch(()=>{})}
+  },()=>{});
+}catch(e){}})();
+</script>
+</body>
+</html>
